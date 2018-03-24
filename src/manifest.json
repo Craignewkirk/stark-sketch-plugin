@@ -1,12 +1,14 @@
 {
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
   "commands": [
     {
       "script": "stark.js",
-      "handler": "onRun",
+      "handler": "runStark",
       "shortcut": "",
       "name": "Show Stark",
       "description": "Show the Stark window.",
-      "icon": "icons/logo.png",
+      "icon": "logo.png",
       "identifier": "stark"
     },
     {
@@ -15,7 +17,7 @@
       "shortcut": "",
       "name": "Protanopia",
       "description": "Simulate protanopia colorblindness.",
-      "icon": "icons/colorblind.png",
+      "icon": "colorblind.png",
       "identifier": "protanopia"
     },
     {
@@ -24,7 +26,7 @@
       "shortcut": "",
       "name": "Protanomaly",
       "description": "Simulate protanomaly colorblindness.",
-      "icon": "icons/colorblind.png",
+      "icon": "colorblind.png",
       "identifier": "protanomaly"
     },
     {
@@ -33,7 +35,7 @@
       "shortcut": "",
       "name": "Deuteranopia",
       "description": "Simulate deuteranopia colorblindness.",
-      "icon": "icons/colorblind.png",
+      "icon": "colorblind.png",
       "identifier": "deuteranopia"
     },
     {
@@ -42,7 +44,7 @@
       "shortcut": "",
       "name": "Deuteranomaly",
       "description": "Simulate deuteranomaly colorblindness.",
-      "icon": "icons/colorblind.png",
+      "icon": "colorblind.png",
       "identifier": "deuteranomaly"
     },
     {
@@ -51,7 +53,7 @@
       "shortcut": "",
       "name": "Tritanopia",
       "description": "Simulate tritanopia colorblindness.",
-      "icon": "icons/colorblind.png",
+      "icon": "colorblind.png",
       "identifier": "tritanopia"
     },
     {
@@ -60,7 +62,7 @@
       "shortcut": "",
       "name": "Tritanomaly",
       "description": "Simulate tritanomaly colorblindness.",
-      "icon": "icons/colorblind.png",
+      "icon": "colorblind.png",
       "identifier": "tritanomaly"
     },
     {
@@ -69,7 +71,7 @@
       "shortcut": "",
       "name": "Achromatopsia",
       "description": "Simulate achromatopsia colorblindness.",
-      "icon": "icons/colorblind.png",
+      "icon": "colorblind.png",
       "identifier": "achromatopsia"
     },
     {
@@ -78,7 +80,7 @@
       "shortcut": "",
       "name": "Achromatomaly",
       "description": "Simulate achromatomaly colorblindness.",
-      "icon": "icons/colorblind.png",
+      "icon": "colorblind.png",
       "identifier": "achromatomaly"
     },
     {
@@ -87,12 +89,12 @@
       "shortcut": "",
       "name": "Check Contrast",
       "description": "Check your selected layers against WCAG 2.0 contrast standards.",
-      "icon": "icons/contrastcheck.png",
+      "icon": "contrastcheck.png",
       "identifier": "contrast"
     }
   ],
   "menu": {
-    "title": "Stark",
+    "title": "Stark 2.0",
     "items": [
       "stark",
       "-",
@@ -111,12 +113,5 @@
       },
       "contrast"
     ]
-  },
-  "identifier": "com.mfouquet.sketch.stark",
-  "version": "1.6",
-  "description": "Ensure your design is accessible and high contrast for every type of color blindness.",
-  "author": "Michael Fouquet, Cat Noone, Benedikt Lehnert",
-  "authorEmail": "michael.fouquet@me.com",
-  "appcast": "https://raw.githubusercontent.com/stark-contrast/stark-sketch-plugin/master/appcast.xml",
-  "name": "Stark"
+  }
 }

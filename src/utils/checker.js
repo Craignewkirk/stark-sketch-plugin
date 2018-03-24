@@ -1,8 +1,14 @@
-function checkContrast(context) {
-  var currentDocument = context.document;
-  var selection = currentDocument.selectedLayers().containedLayers();
-  var currentArtboard = currentDocument.currentPage().currentArtboard();
-  var isValidSelection = validateSelection(selection, currentArtboard);
+const sketch = require('sketch/ui')
+var native = require('sketch/dom')
+var document = require('sketch/dom').getSelectedDocument()
+
+export function checkContrast(context) {
+  var selection = context.selection
+
+  var documentData = context.document.documentData();
+  var currentParentGroup = documentData.currentPage().currentArtboard();
+
+  var isValidSelection = validateSelection(selection, currentParentGroup)
 
   if (isValidSelection) {
     var firstColor = getColor(selection[0]);
@@ -12,8 +18,11 @@ function checkContrast(context) {
 
     if (secondColor.alpha() < 1) {
       var newSecondColor = convertAlpha(firstColor, secondColor, secondColor.alpha());
-      secondColor = [MSColor colorWithRed:newSecondColor[0]/255 green:newSecondColor[1]/255 blue:newSecondColor[2]/255 alpha:1];
+      secondColor = MSColor.colorWithRed_green_blue_alpha(newSecondColor[0]/255, newSecondColor[1]/255, newSecondColor[2]/255, 1);
     }
+
+    log(firstColor)
+    log(secondColor)
 
     var contrastRatio = getContrastRatio(firstColor, secondColor);
     contrastRatio = Math.round(contrastRatio * 100) / 100;
@@ -23,17 +32,22 @@ function checkContrast(context) {
       ',' +
       secondColor.red() + '|' + secondColor.green() + '|' + secondColor.blue());
 
+    log(returnValue)
     return returnValue;
   }
 }
 
 function validateSelection(layers, currentArtboard) {
-  var app = [NSApplication sharedApplication];
-  var isValid = true;
+  log(layers)
+  var isValid = true
 
   // They must have at least one layer selected that's on an artoboard
   // or two layers selected
   if ((layers.length == 1 && currentArtboard) || layers.length == 2) {
+    // layers.forEach((layer) => {
+    //   var currentLayer = native.fromNative(layer)
+    //   log(currentLayer)
+    // })
     for (var i = 0; i < layers.length; ++i) {
       var currentLayerClass = layers[i].class();
 
@@ -41,7 +55,7 @@ function validateSelection(layers, currentArtboard) {
       // have fills or backgrounds
       if (currentLayerClass == "MSLayerGroup" || currentLayerClass == "MSBitmapLayer" || currentLayerClass == "MSPage") {
         isValid = false;
-        [app displayDialog:"The two layers you select cannot be Groups, Images or Pages. Text, Shapes, and Artboards are A-OK!" withTitle:"Unable to Check Contrast."];
+        sketch.alert('Unable to Check Contrast.', 'The two layers you select cannot be Groups, Images or Pages. Text, Shapes, and Artboards are A-OK!')
       }
     }
 
@@ -49,13 +63,13 @@ function validateSelection(layers, currentArtboard) {
   // Can't check contrast of zero layers.
   } else if (layers.length == 0) {
     isValid = false;
-    [app displayDialog:"At least two layers need to be selected in order for the Contrast Checker to work. They can be Text, Shapes or Artboards." withTitle:"No layers selected."];
+    sketch.alert('No layers selected.', 'At least two layers need to be selected in order for the Contrast Checker to work. They can be Text, Shapes or Artboards.')
 
   //
   // More than two layers is too many.
   } else if (layers.length > 2) {
     isValid = false;
-    [app displayDialog:"You must select no more than two layers. They can be Text, Shapes or Artboards." withTitle:"Unable to Check Contrast."];
+    sketch.alert('Unable to Check Contrast.', 'You must select no more than two layers. They can be Text, Shapes or Artboards.')
   }
 
   // If their selection is valid, we have to also ensure that at least one of
@@ -73,7 +87,7 @@ function validateSelection(layers, currentArtboard) {
 
       if (currentArtboard.backgroundColor().alpha() < 1) {
         isValid = false;
-        [app displayDialog:"Your current Artboard needs to be at full opacity in order for the Contrast Checker to work." withTitle:"Unable to Check Contrast."];
+        sketch.alert('Unable to Check Contrast."', 'Your current Artboard needs to be at full opacity in order for the Contrast Checker to work.')
       }
 
     // They've selected two layers and we just need to check the first color to
@@ -81,7 +95,7 @@ function validateSelection(layers, currentArtboard) {
     } else {
       if (firstColor.alpha() < 1) {
         isValid = false;
-        [app displayDialog:"At least one of your selected layer colors needs to be at full opacity in order for the Contrast Checker to work." withTitle:"Unable to Check Contrast."];
+        sketch.alert('Unable to Check Contrast."', 'At least one of your selected layer colors needs to be at full opacity in order for the Contrast Checker to work.')
       }
     }
   }

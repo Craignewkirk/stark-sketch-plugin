@@ -1,50 +1,56 @@
-# Stark
+# stark20
 
-**Rather than go through this readme, check out the [website](http://www.getstark.co/). It's much better.**
+_This plugin was created using `skpm`. For a detailed explanation on how things work, checkout the [skpm Readme](https://github.com/skpm/skpm/blob/master/README.md)._
 
-Easily check your designs against the 8 different types of colorblindness. In addition, run a pair of colors against [WCAG 2.0](https://www.w3.org/TR/WCAG20/) standards.
+## CLI Commands
 
+``` bash
+# build with hot reload
+npm run watch
 
-## Installation
+# build for production
+npm run build
+```
 
-#### Recommended
-* Install via [Sketch Runner](http://sketchrunner.com/), [Sketchpacks](https://sketchpacks.com/), or [Sketch Toolbox](http://sketchtoolbox.com/) by searching for Stark.
+## Custom Configuration
 
-<a href="http://bit.ly/SketchRunnerWebsite">
-  <img width="160" height="41" src="http://bit.ly/RunnerBadgeBlue">
-</a>
+### Babel
 
-<a href="https://sketchpacks.com/stark-contrast/stark-sketch-plugin/install">
-  <img width="160" height="41" src="http://sketchpacks-com.s3.amazonaws.com/assets/badges/sketchpacks-badge-install.png" >
-</a>
+To customize Babel, you have two options:
 
-#### Old-Fashioned
-* Download [this file](https://github.com/stark-contrast/stark-sketch-plugin/archive/master.zip) and double click to install.
+* You may create a [`.babelrc`](https://babeljs.io/docs/usage/babelrc) file in your project's root directory. Any settings you define here will overwrite matching config-keys within skpm preset. For example, if you pass a "presets" object, it will replace & reset all Babel presets that skpm defaults to.
 
+* If you'd like to modify or add to the existing Babel config, you must use a `webpack.skpm.config.js` file. Visit the [Webpack](#webpack) section for more info.
 
-## Usage
+### Webpack
 
-You can obviously select any of the options below, but try speeding up your workflow with [Sketch Runner](http://sketchrunner.com/) and just typing the commands into that.
+To customize webpack create `webpack.skpm.config.js` file which exports function that will change webpack's config.
 
-#### Show Stark
-* Brings up the Stark window. From here you can check your current screen or artboard against the 8 different types of colorblindness and also check a pair of color's contrast.
+```js
+/**
+ * Function that mutates original webpack config.
+ * Supports asynchronous changes when promise is returned.
+ *
+ * @param {object} config - original webpack config.
+ * @param {boolean} isPluginCommand - wether the config is for a plugin command or a resource
+ **/
+module.exports = function (config, isPluginCommand) {
+  /** you can change config here **/
+}
+```
 
-#### Simulate Colorblindness
-* Jump straight to a simulation by selecting any one of the 8 types of colorblindness.
+## Debugging
 
-##### Hotkeys
-The colorblind simulation has the following hotkeys available:
-- <kbd>↑</kbd><kbd>↓</kbd> - Cycle between the 8 types of colorblindness.
-- <kbd>←</kbd><kbd>→</kbd> - Cycle between the artboards in your document.
-- <kbd>-</kbd><kbd>numpad -</kbd> - Zoom out on an artboard.
-- <kbd>+</kbd><kbd>numpad +</kbd> - Zoom in on an artboard.
+To view the output of your `console.log`, you have a few different options:
+* Open `Console.app` and look for the sketch logs
+* Use Safari's web inspector to debug your plugin's javascript context
+* Look at the `~/Library/Logs/com.bohemiancoding.sketch3/Plugin Output.log` file
 
+Skpm provides a convenient way to do the latter:
 
-#### Check Contrast
-* If you have two layers selected, jump straight to checking the contrast of them both.
+```bash
+skpm log
+```
 
+The `-f` option causes `skpm log` to not stop when the end of logs is reached, but rather to wait for additional data to be appended to the input
 
-
-## Problems?
-
-[File an issue](https://github.com/stark-contrast/stark-sketch-plugin/issues) or send me a note on [Twitter](https://twitter.com/_fookay). Any and all feedback is welcome!

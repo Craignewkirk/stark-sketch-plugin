@@ -409,7 +409,7 @@ function monochrome(r) {
 var oldRgb = [];
 var oldFilteredRGB;
 
-function runSimulation() {
+export function runSimulation(canvasScale) {
   var simSelect = document.getElementById('SimulationSelect');
   var simType = simSelect.value.replace('cbid_', '');
 
@@ -456,8 +456,8 @@ function runSimulation() {
 
     ctx.putImageData(pixels, 0, 0);
 
-    addCanvasOpacity();
     var canvasContainer = document.getElementById('CanvasContainer');
+    canvasContainer.classList.remove('canvas--hidden');
 
     if (artboardId === 'abid_UseWindow') {
       canvasContainer.classList.add('canvas--window');
@@ -466,10 +466,10 @@ function runSimulation() {
     }
   }
 
-  img.src = "img/snapshot.png" + "?ts=" + new Date().getTime();
+  img.src = "../snapshot.png" + "?ts=" + new Date().getTime();
 }
 
-function setColorBlindId(colorBlindId) {
+export function setColorBlindId(colorBlindId) {
   var simSelect = document.getElementById('SimulationSelect');
   simSelect.value = colorBlindId;
 }
